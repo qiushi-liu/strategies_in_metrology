@@ -1,1 +1,1 @@
-# strategies_in_metrology
+# Quantum channel estimation within constraints on strategies
