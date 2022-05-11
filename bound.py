@@ -1,4 +1,4 @@
-# compute parallel upper bound on QFI for the amplitude damping noise and the SWAP-type noise, and compare with exact values of parallel and seauential QFI
+# compute parallel upper bound on QFI for the amplitude damping noise and the SWAP-type noise, and compare with exact values of parallel and sequential QFI
 
 from parallel import *
 from sequential import *
