@@ -4,7 +4,7 @@ from comb import *
 from itertools import permutations
 
 # N_phis_re/N_phis_im: the real/imaginary part of N_phis, where N_phis is a list of vectors in the ensemble decomposition  
-# N_phis_re/N_phis_im: the real/imaginary part of dN_phis, where dN_phis is the derivative of N_phis
+# dN_phis_re/dN_phis_im: the real/imaginary part of dN_phis, where dN_phis is the derivative of N_phis
 # dims: a list of integers, containing the dimension of each subsystem, from d_2N to d_1
 # the number of steps N_steps >= 2
 def Prob_CombQFI_sup(N_phis_re, N_phis_im, dN_phis_re, dN_phis_im, dims, N_steps):
@@ -69,7 +69,7 @@ def Prob_CombQFI_sup(N_phis_re, N_phis_im, dN_phis_re, dN_phis_im, dims, N_steps
             indices_identity = []
             for k in range(1, N_steps-1):
                 remove_indices_identity = [pi[i] for i in range(k)]
-                indices_identity.append(2*([i for i in range(N_steps) if i not in remove_indices_identity].index(pi[k+1])))
+                indices_identity.append(2*([i for i in range(N_steps) if i not in remove_indices_identity].index(pi[k])))
 
             constraints_pi = ([A_matrix >> 0, partial_trace(Q_list[-1], dims_Q_list[-1], axis=0) - np.eye(dims[2*pi[-1]+1]) == 0] 
                            + [partial_trace(Q_list[k], dims_Q_list[k], axis=indices_identity[k]) 
