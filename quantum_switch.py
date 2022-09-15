@@ -4,7 +4,7 @@ from comb import *
 from itertools import permutations
 
 # N_phis_re/N_phis_im: the real/imaginary part of N_phis, where N_phis is a list of vectors in the ensemble decomposition  
-# N_phis_re/N_phis_im: the real/imaginary part of dN_phis, where dN_phis is the derivative of N_phis
+# dN_phis_re/dN_phis_im: the real/imaginary part of dN_phis, where dN_phis is the derivative of N_phis
 # all subsystems have the same dimension d
 # the number of steps N_steps >= 2
 def Prob_CombQFI_swi(N_phis_re, N_phis_im, dN_phis_re, dN_phis_im, d, N_steps):  
