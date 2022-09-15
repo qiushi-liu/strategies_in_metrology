@@ -3,7 +3,7 @@
 from comb import *
 
 # N_phis_re/N_phis_im: the real/imaginary part of N_phis, where N_phis is a list of vectors in the ensemble decomposition  
-# N_phis_re/N_phis_im: the real/imaginary part of dN_phis, where dN_phis is the derivative of N_phis
+# dN_phis_re/dN_phis_im: the real/imaginary part of dN_phis, where dN_phis is the derivative of N_phis
 # dims: a list of integers, containing the dimension of each subsystem, from d_2N to d_1
 # N_steps: the number of steps
 def Prob_CombQFI_ico(N_phis_re, N_phis_im, dN_phis_re, dN_phis_im, dims, N_steps):  
@@ -14,7 +14,6 @@ def Prob_CombQFI_ico(N_phis_re, N_phis_im, dN_phis_re, dN_phis_im, dims, N_steps
     dim_h = len(N_phis)
     h = cp.Variable((dim_h, dim_h), hermitian=True)
     Q = cp.Variable((np.prod(dims), np.prod(dims)), hermitian=True)
-    Q_list = [cp.Variable((np.prod(dims[:2*k]+dims[2*k+2:]), np.prod(dims[:2*k]+dims[2*k+2:])), hermitian=True) for k in range(N_steps)]
     lambda0 = cp.Variable()
     
     #construct the non-diagonal block of matrix A
@@ -28,9 +27,9 @@ def Prob_CombQFI_ico(N_phis_re, N_phis_im, dN_phis_re, dN_phis_im, dims, N_steps
     # constraints
     A_matrix = cp.bmat([[1/4*lambda0*np.eye(dim_h), block.H], [block, Q]])
     constraints = ([A_matrix >> 0, cp.trace(Q) == np.prod(dims[1::2])] +   
-    [partial_trace(Q, dims, axis=2*k) -  
-    move_subsystem(cp.kron(1/dims[2*k+1]*np.eye(dims[2*k+1]), Q_list[k]), 
-                  [dims[2*k+1]]+dims[:2*k]+dims[2*k+2:], [dims[2*k+1]]+dims[:2*k]+dims[2*k+2:], [0], [2*k]) == 0 
+    [cp.partial_trace(Q, dims, axis=2*k) -  
+     move_subsystem(cp.kron(1/dims[2*k+1]*np.eye(dims[2*k+1]), cp.partial_trace(Q, [dims[0]*dims[1] for i in range(N_steps)], axis=k)), 
+                  [dims[2*k+1]]+dims[:2*k]+dims[2*k+2:], [dims[2*k+1]]+dims[:2*k]+dims[2*k+2:], [0], [2*k]) == 0
     for k in range(N_steps)])
     
     # problem
