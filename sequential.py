@@ -42,10 +42,10 @@ def Prob_CombQFI_seq(N_phis_re, N_phis_im, dN_phis_re, dN_phis_im, dims, N_steps
     else:
         A_matrix = cp.bmat([[1/4*lambda0*np.eye(dim_h*dim_2N), block_ns.H], [block_ns, cp.kron(np.eye(dims[1]), Q_list[0])]])
         if N_steps == 2:
-            constraints = [A_matrix >> 0, partial_trace(Q_list[-1], dims[-2:], axis=0) - np.eye(dims[-1]) == 0] 
+            constraints = [A_matrix >> 0, cp.partial_trace(Q_list[-1], dims[-2:], axis=0) - np.eye(dims[-1]) == 0] 
         else:
-            constraints = ([A_matrix >> 0, partial_trace(Q_list[-1], dims[-2:], axis=0) - np.eye(dims[-1]) == 0]
-                           + [partial_trace(Q_list[k], dims[2*(k+1):], axis=0) 
+            constraints = ([A_matrix >> 0, cp.partial_trace(Q_list[-1], dims[-2:], axis=0) - np.eye(dims[-1]) == 0]
+                           + [cp.partial_trace(Q_list[k], dims[2*(k+1):], axis=0) 
                - cp.kron(np.eye(dims[2*(k+1)+1]), Q_list[k+1]) == 0 for k in range(N_steps-2)])
     
     
