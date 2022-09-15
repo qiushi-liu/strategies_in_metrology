@@ -3,7 +3,7 @@
 from comb import *
 
 # N_phis_re/N_phis_im: the real/imaginary part of N_phis, where N_phis is a list of vectors in the ensemble decomposition  
-# N_phis_re/N_phis_im: the real/imaginary part of dN_phis, where dN_phis is the derivative of N_phis
+# dN_phis_re/dN_phis_im: the real/imaginary part of dN_phis, where dN_phis is the derivative of N_phis
 # dims: a list of integers, containing the dimension of each subsystem, from d_2N to d_1
 # N_steps: the number of steps
 def Prob_CombQFI_par(N_phis_re, N_phis_im, dN_phis_re, dN_phis_im, dims, N_steps):  
